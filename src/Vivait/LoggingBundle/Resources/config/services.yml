@@ -1,0 +1,16 @@
+services:
+    vivait.logging_bundle.log_processor:
+        class: Vivait\LoggingBundle\Processor\LogProcessor
+        arguments:
+            - "@request_stack'
+            - "%kernel.environment%"
+            - "%vivait_logging_app_name%"
+        tags:
+            - { name: monolog.processor, method: processRecord }
+
+    vivait.logging_bundle.event_listener.loggable:
+        class: Vivait\LoggingBundle\EventListener\LoggableEventListener
+        arguments:
+            - "@logger"
+        tags:
+            - { name: kernel.event_listener, event: '#', method: 'onEvent' }
