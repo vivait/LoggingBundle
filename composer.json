@@ -1,6 +1,7 @@
 {
   "name": "vivait/logging-bundle",
   "description": "Logging Bundle",
+  "license": "MIT",
   "authors": [
     {
       "name": "Viva IT",
