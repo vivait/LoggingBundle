@@ -1,6 +1,6 @@
 <?php
 
-namespace Vivait\TenantBundle\DependencyInjection;
+namespace Vivait\LoggingBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -15,8 +15,10 @@ class VivaitLoggingExtension extends Extension
      */
     public function load(array $config, ContainerBuilder $container)
     {
+        $configuration = new Configuration();
+        $this->processConfiguration($configuration, $config);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        
         $loader->load('config.yml');
     }
 }

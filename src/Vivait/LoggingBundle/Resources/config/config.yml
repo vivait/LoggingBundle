@@ -12,7 +12,7 @@ services:
         arguments:
             - "@request_stack'
             - "%kernel.environment%"
-            - "%vivait_logging_app_name%"
+            - "%vivait_logging.application_name%"
         tags:
             - { name: monolog.processor, method: processRecord }
 
