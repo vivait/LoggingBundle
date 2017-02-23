@@ -1,6 +1,3 @@
-parameters:
-    vivait_logging_app_name: AcmeApp
-
 services:
     vivait.logging_bundle.log_formatter:
         class: Monolog\Formatter\LineFormatter
