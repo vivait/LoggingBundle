@@ -1,3 +1,6 @@
+parameters:
+    vivait_logging_app_name: AcmeApp
+
 services:
     vivait.logging_bundle.log_processor:
         class: Vivait\LoggingBundle\Processor\LogProcessor
