@@ -42,8 +42,14 @@ class LogProcessor
      */
     public function processRecord(array $record)
     {
-        $record['extra']['UA']          = $this->request->headers->get('user-agent');
-        $record['extra']['IP']          = $this->request->getClientIp();
+        $record['extra']['UA'] = '?????';
+        $record['extra']['IP'] = '?????';
+
+        if ($this->request !== null) {
+            $record['extra']['UA'] = $this->request->headers->get('user-agent');
+            $record['extra']['IP'] = $this->request->getClientIp();
+        }
+
         $record['extra']['Environment'] = $this->kernelEnvironment;
         $record['extra']['App']         = $this->appName;
 

@@ -46,4 +46,27 @@ class LogProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $actual, 'Incorrect output received.');
     }
+
+    /**
+     * @test
+     */
+    public function ifThereIsNoRequestThenThereWillBeQuestionMarksInstead()
+    {
+        $requestStack = $this->getMockBuilder(RequestStack::class)->disableOriginalConstructor()->getMock();
+        $requestStack->expects($this->once())->method('getCurrentRequest')->will($this->returnValue(null));
+
+        $processor = new LogProcessor($requestStack, 'env', 'appname');
+
+        $actual = $processor->processRecord([]);
+        $expected = [
+            'extra' => [
+                'UA'          => '?????',
+                'IP'          => '?????',
+                'Environment' => 'env',
+                'App'         => 'appname'
+            ]
+        ];
+
+        $this->assertEquals($expected, $actual, 'Incorrect output received.');
+    }
 }
