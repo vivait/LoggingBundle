@@ -1,4 +1,4 @@
-This bundle will add a Monolog processor that adds the client IP, user-agent, kernel environment and application name to the extra data of each log line.
+This bundle will add a Monolog processor that adds the client IP, user-agent, kernel environment, user and application name to the extra data of each log line.
 It also provides an event listener that listens to all events, logging any that implement the `LoggableEvent` interface.
 
 ## Installation
