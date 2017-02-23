@@ -85,4 +85,31 @@ class LogProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $actual, 'Incorrect output received.');
     }
+
+    /**
+     * @test
+     */
+    public function ifThereIsNoSecurityTokenThenTheUserWillBeBlank()
+    {
+        $mockedTokenStorage = $this->getMockBuilder(TokenStorage::class)->disableOriginalConstructor()->getMock();
+        $mockedTokenStorage->expects($this->once())->method('getToken')->will($this->returnValue(null));
+
+        $requestStack = $this->getMockBuilder(RequestStack::class)->disableOriginalConstructor()->getMock();
+        $requestStack->expects($this->once())->method('getCurrentRequest')->will($this->returnValue(null));
+
+        $processor = new LogProcessor($requestStack, 'env', 'appname', $mockedTokenStorage);
+
+        $actual = $processor->processRecord([]);
+        $expected = [
+            'extra' => [
+                'UA'          => '',
+                'IP'          => '',
+                'Environment' => 'env',
+                'App'         => 'appname',
+                'User'        => ''
+            ]
+        ];
+
+        $this->assertEquals($expected, $actual, 'Incorrect output received.');
+    }
 }

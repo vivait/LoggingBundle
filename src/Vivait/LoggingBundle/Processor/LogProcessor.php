@@ -59,7 +59,12 @@ class LogProcessor
 
         $record['extra']['Environment'] = $this->kernelEnvironment;
         $record['extra']['App']         = $this->appName;
-        $record['extra']['User']        = $this->tokenStorage->getToken()->getUsername();
+        $record['extra']['User']        = '';
+
+        $token = $this->tokenStorage->getToken();
+        if ($token !== null) {
+            $record['extra']['User'] = $token->getUsername();
+        }
 
         return $record;
     }
