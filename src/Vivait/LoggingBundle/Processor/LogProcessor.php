@@ -2,16 +2,15 @@
 
 namespace Vivait\LoggingBundle\Processor;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class LogProcessor
 {
 
     /**
-     * @var Request
+     * @var RequestStack
      */
-    private $request;
+    private $requestStack;
 
     /**
      * @var string
@@ -30,7 +29,7 @@ class LogProcessor
      */
     public function __construct(RequestStack $requestStack, $kernelEnvironment, $appName)
     {
-        $this->request           = $requestStack->getCurrentRequest();
+        $this->requestStack      = $requestStack;
         $this->kernelEnvironment = $kernelEnvironment;
         $this->appName           = $appName;
     }
@@ -45,9 +44,10 @@ class LogProcessor
         $record['extra']['UA'] = '?????';
         $record['extra']['IP'] = '?????';
 
-        if ($this->request !== null) {
-            $record['extra']['UA'] = $this->request->headers->get('user-agent');
-            $record['extra']['IP'] = $this->request->getClientIp();
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request !== null) {
+            $record['extra']['UA'] = $request->headers->get('user-agent');
+            $record['extra']['IP'] = $request->getClientIp();
         }
 
         $record['extra']['Environment'] = $this->kernelEnvironment;
