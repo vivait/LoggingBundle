@@ -2,7 +2,7 @@ services:
     vivait.logging_bundle.log_formatter:
         class: Monolog\Formatter\LineFormatter
         arguments:
-            - "[%%datetime%%] [%%extra.App%%] [%%extra.Environment%%] %%channel%%.%%level_name%%: %%message%% [%%extra.IP%%] [%%extra.UA%%] %%context%% %%extra%%\n"
+            - "[%%datetime%%] [%%extra.App%%] [%%extra.Environment%%] [%%extra.User%%] %%channel%%.%%level_name%%: %%message%% [%%extra.IP%%] [%%extra.UA%%] %%context%% %%extra%%\n"
 
     vivait.logging_bundle.log_processor:
         class: Vivait\LoggingBundle\Processor\LogProcessor
@@ -10,6 +10,7 @@ services:
             - "@request_stack"
             - "%kernel.environment%"
             - "%vivait_logging.application_name%"
+            - "@security.token_storage"
         tags:
             - { name: monolog.processor, method: processRecord }
 

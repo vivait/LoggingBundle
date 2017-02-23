@@ -5,6 +5,8 @@ namespace Vivait\LoggingBundle\Tests\Processor;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Vivait\LoggingBundle\Processor\LogProcessor;
 
 class LogProcessorTest extends \PHPUnit_Framework_TestCase
@@ -15,6 +17,12 @@ class LogProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function theExtraDataWillGetAddedToTheRecord()
     {
+        $mockedToken = $this->getMockBuilder(TokenInterface::class)->disableOriginalConstructor()->getMock();
+        $mockedToken->expects($this->once())->method('getUsername')->will($this->returnValue('admin'));
+
+        $mockedTokenStorage = $this->getMockBuilder(TokenStorage::class)->disableOriginalConstructor()->getMock();
+        $mockedTokenStorage->expects($this->once())->method('getToken')->will($this->returnValue($mockedToken));
+
         $mockedHeaderBag = $this->getMockBuilder(HeaderBag::class)->disableOriginalConstructor()->getMock();
         $mockedHeaderBag
             ->expects($this->once())
@@ -32,7 +40,7 @@ class LogProcessorTest extends \PHPUnit_Framework_TestCase
         $requestStack = $this->getMockBuilder(RequestStack::class)->disableOriginalConstructor()->getMock();
         $requestStack->expects($this->once())->method('getCurrentRequest')->will($this->returnValue($mockedRequest));
 
-        $processor = new LogProcessor($requestStack, 'env', 'appname');
+        $processor = new LogProcessor($requestStack, 'env', 'appname', $mockedTokenStorage);
 
         $actual = $processor->processRecord([]);
         $expected = [
@@ -40,7 +48,8 @@ class LogProcessorTest extends \PHPUnit_Framework_TestCase
                 'UA'          => 'MyUser Agent String 1.2.3',
                 'IP'          => '127.0.0.1',
                 'Environment' => 'env',
-                'App'         => 'appname'
+                'App'         => 'appname',
+                'User'        => 'admin'
             ]
         ];
 
@@ -50,20 +59,27 @@ class LogProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function ifThereIsNoRequestThenThereWillBeQuestionMarksInstead()
+    public function ifThereIsNoRequestThenThereWillBeBlankInstead()
     {
+        $mockedToken = $this->getMockBuilder(TokenInterface::class)->disableOriginalConstructor()->getMock();
+        $mockedToken->expects($this->once())->method('getUsername')->will($this->returnValue('admin'));
+
+        $mockedTokenStorage = $this->getMockBuilder(TokenStorage::class)->disableOriginalConstructor()->getMock();
+        $mockedTokenStorage->expects($this->once())->method('getToken')->will($this->returnValue($mockedToken));
+
         $requestStack = $this->getMockBuilder(RequestStack::class)->disableOriginalConstructor()->getMock();
         $requestStack->expects($this->once())->method('getCurrentRequest')->will($this->returnValue(null));
 
-        $processor = new LogProcessor($requestStack, 'env', 'appname');
+        $processor = new LogProcessor($requestStack, 'env', 'appname', $mockedTokenStorage);
 
         $actual = $processor->processRecord([]);
         $expected = [
             'extra' => [
-                'UA'          => '?????',
-                'IP'          => '?????',
+                'UA'          => '',
+                'IP'          => '',
                 'Environment' => 'env',
-                'App'         => 'appname'
+                'App'         => 'appname',
+                'User'        => 'admin'
             ]
         ];
 

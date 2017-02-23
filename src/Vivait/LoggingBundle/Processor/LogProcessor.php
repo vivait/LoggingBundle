@@ -3,6 +3,7 @@
 namespace Vivait\LoggingBundle\Processor;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class LogProcessor
 {
@@ -23,15 +24,21 @@ class LogProcessor
     private $appName;
 
     /**
+     * @var TokenStorage
+     */
+    private $tokenStorage;
+
+    /**
      * @param RequestStack $requestStack
      * @param string       $kernelEnvironment
      * @param string       $appName
      */
-    public function __construct(RequestStack $requestStack, $kernelEnvironment, $appName)
+    public function __construct(RequestStack $requestStack, $kernelEnvironment, $appName, TokenStorage $tokenStorage)
     {
         $this->requestStack      = $requestStack;
         $this->kernelEnvironment = $kernelEnvironment;
         $this->appName           = $appName;
+        $this->tokenStorage      = $tokenStorage;
     }
 
     /**
@@ -41,8 +48,8 @@ class LogProcessor
      */
     public function processRecord(array $record)
     {
-        $record['extra']['UA'] = '?????';
-        $record['extra']['IP'] = '?????';
+        $record['extra']['UA'] = '';
+        $record['extra']['IP'] = '';
 
         $request = $this->requestStack->getCurrentRequest();
         if ($request !== null) {
@@ -52,6 +59,7 @@ class LogProcessor
 
         $record['extra']['Environment'] = $this->kernelEnvironment;
         $record['extra']['App']         = $this->appName;
+        $record['extra']['User']        = $this->tokenStorage->getToken()->getUsername();
 
         return $record;
     }

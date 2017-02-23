@@ -30,7 +30,7 @@ vivait_logging:
 
 ## Usage
 To use the loggable event listener, simply fire any event that implements the `LoggableEvent` interface, such as the `GenericLogEvent` that is part of this bundle.
-The extra data should automatically be included at the end of each line in your logs but the provided formatter can also be used:
+To use the extra data, set up a [Monolog formatter](https://github.com/Seldaek/monolog/blob/master/doc/02-handlers-formatters-processors.md#formatters) with the appropriate arguments, or use the provided `vivait.logging_bundle.log_formatter` service, e.g.
 
 ```yaml
 # config.yml
@@ -44,6 +44,7 @@ monolog:
 ```
 
 which will display logs in the following format:
+
 ```
-[%%datetime%%] [%%extra.App%%] [%%extra.Environment%%] %%channel%%.%%level_name%%: %%message%% [%%extra.IP%%] [%%extra.UA%%] %%context%% %%extra%%
+[%%datetime%%] [%%extra.App%%] [%%extra.Environment%%] [%%extra.User%%] %%channel%%.%%level_name%%: %%message%% [%%extra.IP%%] [%%extra.UA%%] %%context%% %%extra%%
 ```
