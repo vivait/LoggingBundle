@@ -16,7 +16,9 @@ class VivaitLoggingExtension extends Extension
     public function load(array $config, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $this->processConfiguration($configuration, $config);
+        $bundleConfig  = $this->processConfiguration($configuration, $config);
+
+        $container->setParameter('vivait_logging.application_name', $bundleConfig['application_name']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');

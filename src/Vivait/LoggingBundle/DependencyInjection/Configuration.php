@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('application_name')->end()
+                ->scalarNode('application_name')->defaultValue('MyApplication')->end()
             ->end()
         ;
 
