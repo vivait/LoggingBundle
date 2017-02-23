@@ -7,12 +7,15 @@ It also provides an event listener that listens to all events, logging any that 
 
 ## Usage
 To use the loggable event listener, simply fire any event that implements the `LoggableEvent` listener, such as the `GenericLogEvent` that is part of this bundle.
-The extra data should automatically be included at the end of each line in your logs but if not you can use the values `IP`, `UA`, `Environment` and `App` in your formatter like so:
+The extra data should automatically be included at the end of each line in your logs but the provided formatter can also be used
 
 ```yaml
-services:
-    monolog.formatter.my_formatter:
-        class: Monolog\Formatter\LineFormatter
-        arguments:
-            - "[%%datetime%%] [%%extra.App%%] [%%extra.Environment%%] %%channel%%.%%level_name%%: %%message%% %%context%% [%%extra.IP%%] [%%extra.UA%%]\n"
+# config.yml
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: '%kernel.logs_dir%/%kernel.environment%.log'
+            level: debug
+            formatter: vivait.logging_bundle.log_formatter
 ```
