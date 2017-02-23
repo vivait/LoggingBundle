@@ -4,7 +4,7 @@ It also provides an event listener that listens to all events, logging any that 
 ## Installation
 `composer require vivait/logging-bundle`
 
-1. Include the bundle in your `AppKernel`:
+Include the bundle in your `AppKernel`:
 ```php
 // app/AppKernel.php
 class AppKernel extends Kernel
@@ -20,7 +20,7 @@ class AppKernel extends Kernel
     }
 }
 ```
-2. Add the following configuration to your `config.yml`:
+Add the following configuration to your `config.yml`:
 ```yaml
 vivait_logging:
     application_name: MyAppName
