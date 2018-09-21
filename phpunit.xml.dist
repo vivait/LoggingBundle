@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit colors="true" bootstrap="vendor/autoload.php">
+<phpunit colors="true"
+         bootstrap="vendor/autoload.php"
+         convertErrorsToExceptions="false"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+>
     <testsuites>
         <testsuite name="LoggingBundle">
             <directory>./src/*/*Bundle/Tests</directory>
@@ -17,3 +22,4 @@
         </whitelist>
     </filter>
 </phpunit>
+
