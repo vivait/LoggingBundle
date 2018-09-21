@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Vivait\LoggingBundle\Event\GenericLogEvent;
 use Vivait\LoggingBundle\EventListener\LoggableEventListener;
 
-class LoggableEventListenerTest extends \PHPUnit_Framework_TestCase
+class LoggableEventListenerTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

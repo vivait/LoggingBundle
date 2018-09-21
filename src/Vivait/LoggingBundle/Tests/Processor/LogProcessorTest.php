@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Vivait\LoggingBundle\Processor\LogProcessor;
 
-class LogProcessorTest extends \PHPUnit_Framework_TestCase
+class LogProcessorTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
