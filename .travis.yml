@@ -19,7 +19,7 @@ before_install:
   - composer selfupdate
 
 install:
-  - composer update
+  - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer install --prefer-dist --no-interaction
 
 script:
-   - ./vendor/bin/phpunit
+   - ./vendor/bin/phpunit -c phpunit.xml.dist --fail-on-warning
