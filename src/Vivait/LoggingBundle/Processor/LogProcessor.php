@@ -30,8 +30,9 @@ class LogProcessor
 
     /**
      * @param RequestStack $requestStack
-     * @param string       $kernelEnvironment
-     * @param string       $appName
+     * @param string $kernelEnvironment
+     * @param string $appName
+     * @param TokenStorage $tokenStorage
      */
     public function __construct(RequestStack $requestStack, $kernelEnvironment, $appName, TokenStorage $tokenStorage)
     {
